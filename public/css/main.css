@@ -1,30 +1,197 @@
-html, body {
-    background-color: lightblue;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 20px;
+/* ==========================================================================
+   CSS Variables for Easy Theme Management
+   ========================================================================== */
+:root {
+  --primary-color: #0056b3; /* Deep Professional Blue */
+  --primary-dark: #003d82; /* Darker Blue for Hover States */
+  --bg-color: #ffffff; /* Clean White Background */
+  --bg-secondary: #f8f9fa; /* Light Gray for Footer */
+  --text-main: #333333; /* High contrast dark gray for readability */
+  --text-muted: #555555; /* Medium gray for secondary text */
+  --font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
+}
+
+/* ==========================================================================
+   Reset & Base Styles
+   ========================================================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-    nav {
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
+  font-family: var(--font-family);
+  color: var(--text-main);
+  background-color: var(--bg-color);
+  line-height: 1.6;
 
-        li {
-            display: inline;
-            margin-right: 15px;
-        }
+  /* Flex layout to push footer to the bottom of the screen */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 
-        a {
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
+/* ==========================================================================
+   Navigation
+   ========================================================================== */
+nav {
+  background-color: var(--primary-color);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
 
-            &:hover {
-                color: #0066cc;
-            }
-        }
-    }
-}                
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+nav ul li {
+  margin: 0 0.5rem;
+}
+
+nav ul li a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+/* Accessibility: Hover and Focus states */
+nav ul li a:hover,
+nav ul li a:focus {
+  background-color: var(--primary-dark);
+  outline: 2px solid #ffffff; /* High contrast outline for keyboard navigation */
+  outline-offset: -2px;
+}
+
+/* ==========================================================================
+   Main Content Area
+   ========================================================================== */
+main {
+  flex: 1; /* Ensures the main content grows to push the footer down */
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+  text-align: center;
+}
+
+h1 {
+  font-size: 2.5rem;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: 1.5rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  margin-bottom: 1.5rem;
+}
+
+p {
+  font-size: 1.125rem;
+  max-width: 700px;
+  margin: 0 auto 2rem auto;
+}
+
+/* Image styling */
+.main-logo {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px; /* Softly rounded corners */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Adds a modern pop */
+  margin-top: 1rem;
+}
+
+/* Target the unordered list inside your main content area */
+main ul {
+  list-style: none; /* Removes the default bullet points */
+  padding: 0;
+  margin: 2rem auto;
+  max-width: 600px; /* Keeps the list centered and readable */
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Adds space between each organization */
+}
+
+/* Align the image and text horizontally within each list item */
+main ul li {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1.5rem; /* Space between the logo and the text */
+  text-align: left;
+  padding: 1rem 1.5rem;
+  background-color: #f8f9fa; /* Light gray background for a "card" effect */
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+}
+
+/* Ensure logos are a consistent size */
+main ul li img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+footer {
+  background-color: var(--bg-secondary);
+  color: var(--text-muted);
+  text-align: center;
+  padding: 1.5rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+/* ==========================================================================
+   Media Queries (Mobile Responsiveness)
+   ========================================================================== */
+@media (max-width: 600px) {
+  nav ul {
+    flex-direction: column; /* Stacks nav links vertically on mobile */
+    padding: 0.5rem 0;
+  }
+
+  nav ul li {
+    margin: 0.25rem 0;
+    width: 100%;
+    text-align: center;
+  }
+
+  nav ul li a {
+    display: block; /* Makes the clickable area the full width of the list item */
+    padding: 0.75rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+  }
+
+  main {
+    padding: 2rem 1rem;
+  }
+
+  main ul li {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+}
