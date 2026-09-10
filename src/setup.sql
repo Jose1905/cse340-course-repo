@@ -155,3 +155,36 @@ VALUES -- Organization 1
 		'Community Center',
 		'2026-11-09'
 	);
+DROP TABLE IF EXISTS categories;
+CREATE TABLE categories (
+	category_id SERIAL PRIMARY KEY,
+	category_name VARCHAR(50) NOT NULL
+);
+DROP TABLE IF EXISTS project_categories;
+CREATE TABLE project_categories (
+	category_id INTEGER NOT NULL,
+	project_id INTEGER NOT NULL,
+	PRIMARY KEY (category_id, project_id),
+	FOREIGN KEY(category_id) REFERENCES categories(category_id),
+	FOREIGN KEY(project_id) REFERENCES service_projects(project_id)
+);
+INSERT INTO categories (category_name)
+VALUES ('Environmental & Conservation'),
+	('Community & Social Support'),
+	('Youth & Education');
+INSERT INTO project_categories (category_id, project_id)
+VALUES (1, 2),
+	(1, 5),
+	(1, 6),
+	(1, 7),
+	(1, 8),
+	(1, 9),
+	(1, 10),
+	(2, 1),
+	(2, 3),
+	(2, 4),
+	(3, 11),
+	(3, 12),
+	(3, 13),
+	(3, 14),
+	(3, 15);
