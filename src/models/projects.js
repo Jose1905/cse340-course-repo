@@ -1,6 +1,7 @@
 import db from "./db.js";
 
-const getAllProjects = async () => {
+// UNUSED FUNCTION
+/* const getAllProjects = async () => {
   const query = `
         SELECT o.organization_name, p.title, p.description, p.location, p.date
         FROM organizations o
@@ -11,7 +12,7 @@ const getAllProjects = async () => {
   const result = await db.query(query);
 
   return result.rows;
-};
+}; */
 
 const getProjectsByOrganizationId = async (organizationId) => {
   const query = `
@@ -65,4 +66,21 @@ const getProjectDetails = async (projectId) => {
   return result.rows[0];
 };
 
-export { getAllProjects, getProjectsByOrganizationId, getUpcomingProjects, getProjectDetails };
+const getCategoriesByProjectId = async (id) => {
+  const query = `
+        SELECT c.category_id, c.category_name
+        FROM categories c
+          JOIN project_categories pc
+            ON c.category_id = pc.category_id
+          JOIN service_projects p
+            ON pc.project_id = p.project_id
+        WHERE p.project_id = $1
+        ORDER BY p.date ASC, p.project_id ASC;
+    `;
+
+  const result = await db.query(query, [id]);
+
+  return result.rows;
+};
+
+export { /*getAllProjects, */getProjectsByOrganizationId, getUpcomingProjects, getProjectDetails, getCategoriesByProjectId };
