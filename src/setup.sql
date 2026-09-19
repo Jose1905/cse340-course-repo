@@ -1,13 +1,13 @@
 DROP TABLE IF EXISTS organizations;
 CREATE TABLE organizations (
-	id SERIAL PRIMARY KEY,
-	name VARCHAR(150) NOT NULL,
+	organization_id SERIAL PRIMARY KEY,
+	organization_name VARCHAR(150) NOT NULL,
 	description TEXT NOT NULL,
 	contact_email VARCHAR(255) NOT NULL,
 	logo_filename VARCHAR(255) NOT NULL
 );
 INSERT INTO organizations (
-		name,
+		organization_name,
 		description,
 		contact_email,
 		logo_filename
@@ -38,7 +38,7 @@ CREATE TABLE service_projects (
 	description TEXT NOT NULL,
 	location TEXT NOT NULL,
 	date DATE NOT NULL,
-	FOREIGN KEY (organization_id) REFERENCES organizations(id)
+	FOREIGN KEY (organization_id) REFERENCES organizations(organization_id)
 );
 INSERT INTO service_projects (
 		organization_id,

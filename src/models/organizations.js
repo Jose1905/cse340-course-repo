@@ -2,7 +2,7 @@ import db from "./db.js";
 
 const getAllOrganizations = async () => {
   const query = `
-      SELECT id AS organization_id, name, description, contact_email, logo_filename
+      SELECT organization_id , organization_name, description, contact_email, logo_filename
       FROM public.organizations;
     `;
 
@@ -15,13 +15,13 @@ const getAllOrganizations = async () => {
 const getOrganizationDetails = async (organizationId) => {
       const query = `
       SELECT
-        id,
-        name,
+        organization_id,
+        organization_name,
         description,
         contact_email,
         logo_filename
-      FROM organizations
-      WHERE id = $1;
+      FROM public.organizations
+      WHERE organization_id = $1;
     `;
 
       const queryParams = [organizationId];

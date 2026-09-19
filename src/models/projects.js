@@ -2,10 +2,10 @@ import db from "./db.js";
 
 const getAllProjects = async () => {
   const query = `
-        SELECT o.name, p.title, p.description, p.location, p.date
+        SELECT o.organization_name, p.title, p.description, p.location, p.date
         FROM organizations o
         JOIN service_projects p
-        ON o.id = p.organization_id;
+        ON o.organization_id = p.organization_id;
     `;
 
   const result = await db.query(query);
@@ -35,10 +35,10 @@ const getProjectsByOrganizationId = async (organizationId) => {
 
 const getUpcomingProjects = async (numberOfProjects) => {
   const query = `
-    SELECT p.project_id, p.title, p.description, p.date, p.location, p.organization_id, o.name
+    SELECT p.project_id, p.title, p.description, p.date, p.location, p.organization_id, o.organization_name
     FROM service_projects p
     JOIN organizations o
-    ON p. organization_id = o.id
+    ON p. organization_id = o.organization_id
     WHERE p.date >= CURRENT_DATE
     ORDER BY p.date ASC, p.project_id ASC
     LIMIT $1;
@@ -52,10 +52,10 @@ const getUpcomingProjects = async (numberOfProjects) => {
 
 const getProjectDetails = async (projectId) => {
   const query = `
-    SELECT p.project_id, p.title, p.description, p.date, p.location, p.organization_id, o.name
+    SELECT p.project_id, p.title, p.description, p.date, p.location, p.organization_id, o.organization_name
     FROM service_projects p
     JOIN organizations o
-    ON p. organization_id = o.id
+    ON p. organization_id = o.organization_id
     WHERE p.project_id = $1;
   `;
 
