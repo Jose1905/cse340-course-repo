@@ -61,6 +61,35 @@ const createOrganization = async (name, description, contactEmail, logoFilename)
     return result.rows[0].organization_id;
 };
 
+const editOrganization = async (organization_id, name, description, contactEmail, logoFilename) => {
+    const query = `
+      UPDATE organizations
+      SET organization_name = $2,
+          description = $3,
+          contact_email = $4,
+          logo_filename = $5
+      WHERE organization_id = $1
+      RETURNING organization_id
+    `;
+
+    const queryParams = [organization_id, name, description, contactEmail, logoFilename];
+    const result = await db.query(query, queryParams);
+
+    if (result.rows.length === 0) {
+        throw new Error('Failed to update organization');
+    }
+
+    if (process.env.ENABLE_SQL_LOGGING === 'true') {
+        console.log('Updated organization with ID:', result.rows[0].organization_id);
+    }
+
+    return result.rows[0].organization_id;
+};
+
 
 // Export the model functions
-export { getAllOrganizations, getOrganizationDetails, createOrganization }
+export { getAllOrganizations, 
+  getOrganizationDetails,
+  createOrganization,
+  editOrganization
+}
