@@ -74,6 +74,129 @@ nav ul li a:focus {
   outline-offset: -2px;
 }
 
+/* Flash message styles */
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+.alert.success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+.alert.error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+.alert.warning {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+}
+.alert.info {
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+}
+
+/* ==========================================================================
+   Form Styles
+   ========================================================================== */
+.form-container {
+  background-color: var(--bg-color);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 2rem auto;
+  text-align: left; /* Overrides the main text-align: center to keep labels aligned */
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--text-main);
+  font-size: 1rem;
+}
+
+/* Style for all common text-based inputs */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="tel"],
+textarea,
+select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-family: var(--font-family);
+  font-size: 1rem;
+  color: var(--text-main);
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Allow textareas to be resized vertically but not horizontally */
+textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* Focus states for accessibility and aesthetics */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  /* Uses a transparent version of your primary blue for the glow */
+  box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.2); 
+}
+
+/* Submit Button Styling */
+button[type="submit"],
+.btn-submit {
+  display: inline-block;
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  font-family: var(--font-family);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  margin-top: 0.5rem;
+}
+
+/* Button Hover and Active states */
+button[type="submit"]:hover,
+.btn-submit:hover {
+  background-color: var(--primary-dark);
+}
+
+button[type="submit"]:active,
+.btn-submit:active {
+  transform: scale(0.98); /* Slight pressing effect when clicked */
+}
+
+button[type="submit"]:focus,
+.btn-submit:focus {
+  outline: 2px solid var(--primary-dark);
+  outline-offset: 2px;
+}
+
 /* ==========================================================================
    Main Content Area
    ========================================================================== */
