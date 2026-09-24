@@ -111,7 +111,7 @@ const createProject = async (
 };
 
 export {
-  /*getAllProjects, */ getProjectsByOrganizationId,
+  getProjectsByOrganizationId,
   getUpcomingProjects,
   getProjectDetails,
   getCategoriesByProjectId,

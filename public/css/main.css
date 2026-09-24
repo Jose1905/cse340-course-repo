@@ -115,8 +115,25 @@ nav ul li a:focus {
   text-align: left; /* Overrides the main text-align: center to keep labels aligned */
 }
 
+/* Center the form itself on the page, but align its contents to the left */
+form {
+  max-width: 500px; /* Keeps the list from stretching too far */
+  margin: 0 auto;
+}
+
+/* Flexbox ensures the checkbox rows stack neatly on the left */
 .form-group {
-  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Forces the inner divs to the left edge */
+  margin: 1.5rem 0;
+}
+
+/* Ensure the text inside the checkbox wrapper is also left-aligned */
+.form-group div {
+  margin-bottom: 0.75rem;
+  position: relative;
+  text-align: left;
 }
 
 .form-group label {
@@ -195,6 +212,91 @@ button[type="submit"]:focus,
 .btn-submit:focus {
   outline: 2px solid var(--primary-dark);
   outline-offset: 2px;
+}
+
+/* ==========================================================================
+   Custom Checkboxes
+   ========================================================================== */
+
+/* Add spacing between your checkbox list items */
+.form-group div {
+  margin-bottom: 0.75rem;
+  position: relative;
+}
+
+/* Visually hide the default browser checkbox but keep it focusable */
+.form-group input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Style the label to act as the clickable area and hold the custom drawings */
+.form-group input[type="checkbox"] + label {
+  position: relative;
+  cursor: pointer;
+  padding-left: 32px; /* Space for the custom box */
+  font-size: 1rem;
+  font-weight: normal; /* Overrides the bold font from main form labels */
+  color: var(--text-main);
+  user-select: none; /* Prevents text highlighting on quick clicks */
+  display: inline-block;
+  line-height: 1.4;
+}
+
+/* The custom checkbox square (drawn via ::before) */
+.form-group input[type="checkbox"] + label::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%); /* Centers the box with the text */
+  height: 20px;
+  width: 20px;
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+/* The checkmark icon (drawn via ::after, hidden by default) */
+.form-group input[type="checkbox"] + label::after {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 50%;
+  transform: translateY(-60%) rotate(45deg); /* Centers and angles the check */
+  width: 6px;
+  height: 11px;
+  border: solid #ffffff;
+  border-width: 0 2px 2px 0;
+  display: none; /* Hidden until checked */
+}
+
+/* Hover state: darken the border */
+.form-group input[type="checkbox"]:hover + label::before,
+.form-group input[type="checkbox"] + label:hover::before {
+  border-color: var(--primary-color);
+}
+
+/* Focus state: accessibility glow matching your text inputs */
+.form-group input[type="checkbox"]:focus + label::before {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.2); 
+}
+
+/* Checked state: fill the box with primary blue */
+.form-group input[type="checkbox"]:checked + label::before {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+/* Checked state: show the checkmark */
+.form-group input[type="checkbox"]:checked + label::after {
+  display: block;
 }
 
 /* ==========================================================================

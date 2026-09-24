@@ -66,7 +66,6 @@ const showNewProjectForm = async (req, res) => {
 };
 
 const processNewProjectForm = async (req, res) => {
-
   // Check for validation errors
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -93,11 +92,14 @@ const processNewProjectForm = async (req, res) => {
     );
     req.flash("success", "New service project created successfully!");
     res.redirect(`/project/${newProjectId}`);
-    } catch (error) {
-        console.error('Error creating new project:', error);
-        req.flash('error', 'Failed to create new service project. Please try again.');
-        res.redirect('/new-project');
-    }
+  } catch (error) {
+    console.error("Error creating new project:", error);
+    req.flash(
+      "error",
+      "Failed to create new service project. Please try again.",
+    );
+    res.redirect("/new-project");
+  }
 };
 
 export {
