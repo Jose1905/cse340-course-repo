@@ -51,7 +51,7 @@ const showNewOrganizationForm = async (req, res) => {
     const title = 'Add New Organization';
 
     res.render('new-organization', { title });
-}
+};
 
 const processNewOrganizationForm = async (req, res) => {
     // Check for validation errors
