@@ -99,11 +99,32 @@ const createCategory = async (
   return result.rows[0].category_id;
 };
 
+const editCategory = async (category_id, category_name) => {
+  const query = `
+    UPDATE categories
+    SET category_name = $2
+    WHERE category_id = $1
+    RETURNING category_id
+  `
+  const queryParams = [category_id, category_name];
+  const result = await db.query(query, queryParams);
+
+  if (process.env.ENABLE_SQL_LOGGING === "true") {
+    console.log(
+      "Updated category with ID:",
+      result.rows[0].category_id,
+    );
+  }
+
+  return result.rows[0].category_id;
+};
+
 export {
   getAllCategories,
   getCategoryById,
   getProjectsByCategoryId,
   assignCategoryToProject,
   updateCategoryAssignments,
-  createCategory
+  createCategory,
+  editCategory
 };

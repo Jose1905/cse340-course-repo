@@ -103,3 +103,11 @@ app.listen(PORT, async () => {
     console.error("Error connecting to the database:", error);
   }
 });
+
+/* 
+If the server keeps running on the port 3000, run the following command to get the process ID:
+Get-NetTCPConnection -LocalPort 3000 -State Listen |  ForEach-Object { Get-Process -Id $_.OwningProcess | Select-Object Id, ProcessName, Path }
+
+And then this one to kill it:
+Stop-Process -Id 6352
+*/
