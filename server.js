@@ -109,5 +109,5 @@ If the server keeps running on the port 3000, run the following command to get t
 Get-NetTCPConnection -LocalPort 3000 -State Listen |  ForEach-Object { Get-Process -Id $_.OwningProcess | Select-Object Id, ProcessName, Path }
 
 And then this one to kill it:
-Stop-Process -Id 6352
+Stop-Process -Id 32320
 */
