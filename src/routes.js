@@ -32,7 +32,10 @@ import {
 } from './controllers/categories.js';
 import { showUserRegistrationForm,
     processUserRegistrationForm,
-    userValidation
+    userValidation,
+    showLoginForm,
+    processLoginForm,
+    processLogout
 } from "./controllers/users.js"
 import { testErrorPage } from './controllers/errors.js';
 
@@ -54,7 +57,8 @@ router.get('/edit-project/:id', showEditProjectForm);
 router.get('/new-category', showNewCategoryForm);
 router.get('/edit-category/:id', showEditCategoryForm);
 router.get('/register', showUserRegistrationForm);
-
+router.get('/login', showLoginForm);
+router.get('/logout', processLogout);
 
 
 // POST routes
@@ -66,6 +70,7 @@ router.post('/edit-project/:id', projectValidation, processEditProjectForm);
 router.post('/new-category', categoryValidation, processNewCategoryForm);
 router.post('/edit-category/:id', categoryValidation, processEditCategoryForm);
 router.post('/register', userValidation, processUserRegistrationForm);
+router.post('/login', processLoginForm);
 
 
 // error-handling routes
