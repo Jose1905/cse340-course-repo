@@ -89,7 +89,7 @@ const processLoginForm = async (req, res) => {
                 console.log('User logged in:', user);
             }
 
-            res.redirect('/');
+            res.redirect('/dashboard');
         } else {
             req.flash('error', 'Invalid email or password.');
             res.redirect('/login');
@@ -110,11 +110,32 @@ const processLogout = async (req, res) => {
     res.redirect('/login');
 };
 
+const requireLogin = async (req, res, next) => {
+    if (!req.session || !req.session.user) {
+        req.flash('error', 'Please Log in before you continue');
+        return res.redirect('/login');
+    }
+
+    next();
+};
+
+const showDashboard = async (req, res) => {
+  const user = req.session.user;
+
+  res.render("dashboard", {
+    title: 'Dashboard',
+    name: user.name,
+    email: user.email
+  })
+};
+
 export {
   showUserRegistrationForm,
   processUserRegistrationForm,
   userValidation,
   showLoginForm,
   processLoginForm,
-  processLogout
+  processLogout,
+  requireLogin,
+  showDashboard
 };
