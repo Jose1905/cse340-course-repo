@@ -1,12 +1,6 @@
 import bcrypt from "bcrypt";
-import {
-    createUser,
-    authenticateUser
-} from "../models/users.js";
-import {
-    body,
-    validationResult
-} from "express-validator";
+import { createUser, authenticateUser, findUserByEmail } from "../models/users.js";
+import { body, validationResult } from "express-validator";
 
 const userValidation = [
   body("name")
@@ -25,8 +19,8 @@ const userValidation = [
     .trim()
     .notEmpty()
     .withMessage("Password is required")
-    .isLength({ min: 8 })
-    .withMessage("Password must be at least 8-character long"),
+    .isLength({ min: 3 })
+    .withMessage("Password must be at least 3-character long"),
 ];
 
 const showUserRegistrationForm = (req, res) => {
@@ -72,61 +66,88 @@ const processUserRegistrationForm = async (req, res) => {
 };
 
 const showLoginForm = (req, res) => {
-    res.render('login', { title: 'Login' });
+  res.render("login", { title: "Login" });
 };
 
 const processLoginForm = async (req, res) => {
-    const { email, password } = req.body;
+  const { email, password } = req.body;
 
-    try {
-        const user = await authenticateUser(email, password);
-        if (user) {
-            // Store user info in session
-            req.session.user = user;
-            req.flash('success', 'Login successful!');
+  try {
+    const user = await authenticateUser(email, password);
+    if (user) {
+      const userData = await findUserByEmail(email);
+      // Store user info in session
+      req.session.user = userData;
+      req.flash("success", "Login successful!");
 
-            if (res.locals.NODE_ENV === 'development') {
-                console.log('User logged in:', user);
-            }
+      if (res.locals.NODE_ENV === "development") {
+        console.log("User logged in:", userData);
+      }
 
-            res.redirect('/dashboard');
-        } else {
-            req.flash('error', 'Invalid email or password.');
-            res.redirect('/login');
-        }
-    } catch (error) {
-        console.error('Error during login:', error);
-        req.flash('error', 'An error occurred during login. Please try again.');
-        res.redirect('/login');
+      res.redirect("/dashboard");
+    } else {
+      req.flash("error", "Invalid email or password.");
+      res.redirect("/login");
     }
+  } catch (error) {
+    console.error("Error during login:", error);
+    req.flash("error", "An error occurred during login. Please try again.");
+    res.redirect("/login");
+  }
 };
 
 const processLogout = async (req, res) => {
-    if (req.session.user) {
-        delete req.session.user;
-    }
+  if (req.session.user) {
+    delete req.session.user;
+  }
 
-    req.flash('success', 'Logout successful!');
-    res.redirect('/login');
+  req.flash("success", "Logout successful!");
+  res.redirect("/login");
 };
 
 const requireLogin = async (req, res, next) => {
+  if (!req.session || !req.session.user) {
+    req.flash("error", "Please Log in before you continue");
+    return res.redirect("/login");
+  }
+
+  next();
+};
+
+/**
+ * Middleware factory to require specific role for route access
+ * Returns middleware that checks if user has the required role
+ *
+ * @param {string} role - The role name required (e.g., 'admin', 'user')
+ * @returns {Function} Express middleware function
+ */
+const requireRole = (role) => {
+  return (req, res, next) => {
+    // Check if user is logged in first
     if (!req.session || !req.session.user) {
-        req.flash('error', 'Please Log in before you continue');
-        return res.redirect('/login');
+      req.flash("error", "You must be logged in to access this page.");
+      return res.redirect("/login");
     }
 
+    // Check if user's role matches the required role
+    if (req.session.user.role_name !== role) {
+      req.flash("error", "You do not have permission to access this page.");
+      return res.redirect("/");
+    }
+
+    // User has required role, continue
     next();
+  };
 };
 
 const showDashboard = async (req, res) => {
   const user = req.session.user;
 
   res.render("dashboard", {
-    title: 'Dashboard',
+    title: "Dashboard",
     name: user.name,
-    email: user.email
-  })
+    email: user.email,
+  });
 };
 
 export {
@@ -137,5 +158,6 @@ export {
   processLoginForm,
   processLogout,
   requireLogin,
-  showDashboard
+  showDashboard,
+  requireRole
 };
