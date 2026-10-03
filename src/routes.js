@@ -38,7 +38,8 @@ import { showUserRegistrationForm,
     processLogout,
     requireLogin,
     showDashboard,
-    requireRole
+    requireRole,
+    showUsersPage
 } from "./controllers/users.js"
 import { testErrorPage } from './controllers/errors.js';
 
@@ -62,9 +63,8 @@ router.get('/edit-category/:id', requireRole('admin'), showEditCategoryForm);
 router.get('/register', showUserRegistrationForm);
 router.get('/login', showLoginForm);
 router.get('/logout', processLogout);
-
-// Protected dashboard route
 router.get('/dashboard', requireLogin, showDashboard);
+router.get('/users', requireRole('admin'), showUsersPage);
 
 
 // POST routes

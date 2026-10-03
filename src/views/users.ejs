@@ -1,0 +1,21 @@
+<%- include('partials/header') %>
+<main>
+    <h1><%= title %></h1>
+
+    <ul id="user_list">
+        <% users.forEach(user => { %>
+            <li>
+                <h3>Name: <%= user.name %></h3>
+
+                <p>Email: <%= user.email %></p>
+
+                <p>Role: <%= user.role_name %></p>
+            </li>
+        <% }); %>
+    </ul>
+
+    <% if (user && user.role_name === 'admin') { %>
+        <a href="/register">Add New user</a>
+    <% } %></main>
+
+<%- include('partials/footer') %>
