@@ -8,9 +8,26 @@
     
     <p>Email: <%= email %></p>
 
+    <% if (!projects) { %>
+        <p>You are not volunteering for any projects.</p>
+    <% } else { %>
+        <h2>Volunteering Projects</h2>
+        <ul class="dashboard-project-list">
+            <% projects.forEach((project) => { %>
+                <li>
+                    <a href="/project/<%= project.project_id %>"><%= project.title %></a>
+                    <form action="/dashboard/<%= project.project_id %>/true" method="POST">
+                        <button type="submit">Remove Volunteer</button>
+                    </form>
+                </li>
+            <% }); %>
+        </ul>
+    <% } %>
+
     <% if (user && user.role_name === 'admin') { %>
         <a href="/users">View registered users</a>
     <% } %>
+    
 
 </main>
 <%- include('partials/footer') %>

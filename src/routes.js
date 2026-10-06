@@ -17,7 +17,8 @@ import {
     processNewProjectForm,
     projectValidation,
     showEditProjectForm,
-    processEditProjectForm
+    processEditProjectForm,
+    processToggleVolunteer
 } from './controllers/projects.js';
 import {
     showCategoriesPage,
@@ -77,6 +78,7 @@ router.post('/new-category', requireRole('admin'), categoryValidation, processNe
 router.post('/edit-category/:id', requireRole('admin'), categoryValidation, processEditCategoryForm);
 router.post('/register', userValidation, processUserRegistrationForm);
 router.post('/login', processLoginForm);
+router.post('/dashboard/:id/:isVolunteer', requireLogin, processToggleVolunteer);
 
 
 // error-handling routes

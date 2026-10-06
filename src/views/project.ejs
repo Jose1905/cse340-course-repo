@@ -24,6 +24,20 @@
     <% }); %>
   </ul>
 
+  <% if (user) { %>
+    <% if (isVolunteered) { %>
+      <p>You are volunteering for this project.</p>
+      <form action="/dashboard/<%= projectDetails.project_id %>/<%= isVolunteered %>" method="POST">
+        <button type="submit">Remove Volunteer</button>
+      </form>
+    <% } else { %>
+      <form action="/dashboard/<%= projectDetails.project_id %>/<%= isVolunteered %>" method="POST">
+        <button type="submit">Volunteer</button>
+      </form>
+    <% } %>
+  <% } %>
+
+
   <% if (user && user.role_name === 'admin') { %>
       <p><a href="/assign-categories/<%= projectDetails.project_id %>">Edit Categories %></a></p>
 

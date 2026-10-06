@@ -7,6 +7,11 @@ import {
 } from "../models/projects.js";
 import { getAllOrganizations } from "../models/organizations.js";
 import { body, validationResult } from "express-validator";
+import {
+  getVolunteeredProjects,
+  addVolunteer,
+  removeVolunteer
+} from "../models/users.js";
 
 const NUMBER_OF_UPCOMING_PROJECTS = 5;
 
@@ -55,8 +60,24 @@ const showProjectDetailsPage = async (req, res) => {
   const projectDetails = await getProjectDetails(projectId);
   const projectCategories = await getCategoriesByProjectId(projectId);
   const title = "Project Details - " + projectDetails.title;
+  
+  if (!req.session.user) {
+    return res.render("project", { title, projectDetails, projectCategories, isVolunteered: false });
+  };
 
-  res.render("project", { title, projectDetails, projectCategories });
+  const userId = req.session.user.user_id;
+  const volunteeredProjects = await getVolunteeredProjects(userId);
+
+  if (volunteeredProjects) {
+    for (const project in volunteeredProjects) {
+      if (volunteeredProjects[project].project_id === parseInt(projectId)) {
+        // Project is volunteered
+        return res.render("project", { title, projectDetails, projectCategories, isVolunteered: true });
+      }
+    }
+  }
+  
+  return res.render("project", { title, projectDetails, projectCategories, isVolunteered: false });
 };
 
 const showNewProjectForm = async (req, res) => {
@@ -151,6 +172,21 @@ const processEditProjectForm = async (req, res) => {
   }
 };
 
+const processToggleVolunteer = async (req, res) => {
+  const projectId = req.params.id;
+  const userId = req.session.user.user_id;
+  const isVolunteer = req.params.isVolunteer;
+
+  if (isVolunteer === "true") {
+    await removeVolunteer(projectId, userId);
+    req.flash("success", "Successfully removed from the service project!");
+  } else {
+    await addVolunteer(projectId, userId);
+    req.flash("success", "Volunteered for the service project successfully!");
+  }
+  res.redirect("/dashboard");
+};
+
 export {
   showProjectsPage,
   showProjectDetailsPage,
@@ -159,4 +195,5 @@ export {
   projectValidation,
   showEditProjectForm,
   processEditProjectForm,
+  processToggleVolunteer
 };

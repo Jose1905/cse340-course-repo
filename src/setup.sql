@@ -423,3 +423,11 @@ CREATE TABLE users (
 INSERT INTO roles (role_name, role_description) VALUES 
     ('user', 'Standard user with basic access'),
     ('admin', 'Administrator with full system access');
+
+DROP TABLE IF EXISTS volunteers;
+
+CREATE TABLE volunteers (
+	project_id integer NOT NULL REFERENCES service_projects(project_id),
+	user_id integer NOT NULL REFERENCES users(user_id),
+	PRIMARY KEY (project_id, user_id)
+);

@@ -371,6 +371,21 @@ main ul li img {
   object-fit: contain;
 }
 
+.dashboard-project-list > li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 240px;
+}
+
+.dashboard-project-list form {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+.dashboard-project-list button[type="submit"] {
+  margin-top: 0;
+}
+
 #user_list {
   display: flex;
   flex-direction: column;
@@ -393,6 +408,12 @@ main ul li img {
 
 #user_list > li p {
   margin: 0;
+}
+
+@media (max-width: 480px) {
+  .dashboard-project-list > li {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 /* ==========================================================================

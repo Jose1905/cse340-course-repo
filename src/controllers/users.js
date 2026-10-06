@@ -3,7 +3,8 @@ import {
   createUser,
   authenticateUser,
   findUserByEmail,
-  getAllUsers
+  getAllUsers,
+  getVolunteeredProjects,
 } from "../models/users.js";
 import { body, validationResult } from "express-validator";
 
@@ -55,7 +56,7 @@ const processUserRegistrationForm = async (req, res) => {
     const passwordHash = await bcrypt.hash(password, salt);
 
     // Create the user in the database
-    const userId = await createUser(name, email, passwordHash);
+    await createUser(name, email, passwordHash);
 
     // Redirect to the home page after successful registration
     req.flash("success", "Registration successful! Please log in.");
@@ -147,11 +148,14 @@ const requireRole = (role) => {
 
 const showDashboard = async (req, res) => {
   const user = req.session.user;
+  const userId = user.user_id;
+  const projects = await getVolunteeredProjects(userId);
 
   res.render("dashboard", {
     title: "Dashboard",
     name: user.name,
     email: user.email,
+    projects
   });
 };
 
